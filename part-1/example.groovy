@@ -133,7 +133,7 @@ switch (varSwitch) {
         break
     default:
         println 'unknown...'
-        breakd
+        break
 }
 
 // ----- 8 - MAP example ------
