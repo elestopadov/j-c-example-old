@@ -1,11 +1,17 @@
 pipeline {
     agent any
-        parameters {
-            choice(name: 'DEV_DEPLOY', choices: ['Yes', 'No'],
-            description: 'Do you want to deploy a development server?')
-        }
+    parameters {
+        choice(name: 'DEV_DEPLOY', choices: ['Yes', 'No'],
+        description: 'Do you want to deploy a development server?')
+    }
     stages {
-        stage('Compile') {
+        stage('Compile'){
+            steps{
+                echo 'build'
+                sleep 2
+            }
+        }
+        stage('Test') {
             input {
                 message 'Do you want to run tests?'
                 ok 'Yes, we should.'
@@ -16,16 +22,13 @@ pipeline {
                     )
                 }
             }
-            steps {
-                echo 'build'
-            }
-        }
-        stage('Test') {
             when {
+                beforeInput false
                 environment name: 'TURN_ON_TEST', value: 'Yes'
             }
             steps {
                 echo 'done'
+                echo "test $TURN_ON_TEST"
             }
         }
         stage('Deploy to Dev') {
